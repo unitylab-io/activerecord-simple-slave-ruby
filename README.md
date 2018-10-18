@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Extend your model with ActiveRecord::SimpleSlave module, then use :
+```ruby
+Model.with_slave do
+  Model.first # this will hit your slave server
+end
+```
 
 ## Development
 
