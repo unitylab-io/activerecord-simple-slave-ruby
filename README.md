@@ -22,6 +22,10 @@ Or install it yourself as:
 
 Extend your model with ActiveRecord::SimpleSlave module, then use :
 ```ruby
+class Model < ActiveRecord::Base
+  extend ActiveRecord::SimpleSlave
+end
+
 Model.with_slave do
   Model.first # this will hit your slave server
 end
