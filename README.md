@@ -20,6 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
+Declare in your `database.yml` file the slave address to use:
+```yml
+development:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: root
+  simple_slave: slave.localhost:3306 # port is optional
+```
+
+You can also use the environment variable `DATABASE_SIMPLE_SLAVE` to declare
+your slave server address.
+```shell
+# EXPORT ENV VAR GLOBALLY
+export DATABASE_SIMPLE_SLAVE=slave.localhost:3306
+bundle exec rails server
+
+# OR PER COMMAND :)
+DATABASE_SIMPLE_SLAVE=slave.localhost:3306 bundle exec rails server
+```
+
 Extend your model with ActiveRecord::SimpleSlave module, then use :
 ```ruby
 class Model < ActiveRecord::Base
