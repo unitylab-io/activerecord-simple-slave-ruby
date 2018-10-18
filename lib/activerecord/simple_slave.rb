@@ -1,42 +1,59 @@
 module ActiveRecord
   module SimpleSlave
-    def slave_connection_spec
-      return @slave_spec unless @slave_spec.nil?
+    def simple_slave_url
+      ENV.fetch(
+        'DATABASE_SIMPLE_SLAVE_URL', connection_config[:simple_slave_url]
+      )
+    end
 
-      resolver = \
-        ActiveRecord::ConnectionAdapters::ConnectionSpecification::Resolver.new(
-          'slave' => connection_config.stringify_keys
-        )
-      @slave_spec = resolver.spec(:slave).tap do |sp|
-        address = ENV.fetch('DATABASE_SIMPLE_SLAVE', sp.config[:simple_slave])
-        next if address.nil?
+    def simple_slave_configuration
+      @simple_slave_configuration ||= connection_config.dup.tap do |config|
+        if simple_slave_url.nil?
+          Rails.logger.warn 'simple slave disabled (no configuration provided)'
+          next
+        end
 
-        host, port = address.split(':')
-        sp.config[:host] = host
-        sp.config[:port] = port unless port.nil?
+        uri = URI.parse(simple_slave_url)
+        config[:host] = uri.host
+        config[:port] = uri.port unless uri.port.nil?
+        config[:username] = uri.user unless uri.user.nil?
+        config[:password] = uri.password unless uri.password.nil?
+        if !uri.path.nil? && uri.path.length > 1
+          config[:database] = uri.path[1..-1]
+        end
+        config.delete(:simple_slave_url)
       end
     end
 
-    def slave_connection_pool
-      @slave_connection_pool ||= \
+    def simple_slave_connection_spec
+      return @simple_slave_spec unless @simple_slave_spec.nil?
+
+      @simple_slave_spec = \
+      ActiveRecord::ConnectionAdapters::ConnectionSpecification::Resolver.new(
+        'slave' => simple_slave_configuration
+      ).spec(:slave)
+    end
+
+    def simple_slave_connection_pool
+      @simple_slave_connection_pool ||= \
         ActiveRecord::ConnectionAdapters::ConnectionPool.new(
-          slave_connection_spec
+          simple_slave_connection_spec
         )
     end
 
     def with_slave(&_block)
       retvalue = nil
-      slave_connection_pool.with_connection do |connection|
-        Thread.current[:selected_connection] = connection
+      simple_slave_connection_pool.with_connection do |connection|
+        Thread.current[:simple_slave_connection] = connection
         retvalue = yield(connection)
-        Thread.current[:selected_connection] = nil
+        Thread.current[:simple_slave_connection] = nil
       end
       retvalue
     end
 
     def connection
-      if !Thread.current[:selected_connection].nil?
-        Thread.current[:selected_connection]
+      if !Thread.current[:simple_slave_connection].nil?
+        Thread.current[:simple_slave_connection]
       else
         super
       end

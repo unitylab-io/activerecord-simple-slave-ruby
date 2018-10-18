@@ -20,6 +20,9 @@ Or install it yourself as:
 
 ## Usage
 
+SimpleSlave automatically retrieve authentication informations from your current
+database configuration, you only have to provide
+
 Declare in your `database.yml` file the slave address to use:
 ```yml
 development:
@@ -27,7 +30,7 @@ development:
   port: 3306
   username: root
   password: root
-  simple_slave: slave.localhost:3306 # port is optional
+  simple_slave_url: mysql2://slave.localhost:3306/ # port is optional
 ```
 
 You can also use the environment variable `DATABASE_SIMPLE_SLAVE` to declare
