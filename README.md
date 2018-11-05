@@ -30,18 +30,18 @@ development:
   port: 3306
   username: root
   password: root
-  simple_slave_url: mysql2://slave.localhost:3306/ # port is optional
+  simple_slave_url: mysql2://slave.localhost:3306 # port is optional
 ```
 
 You can also use the environment variable `DATABASE_SIMPLE_SLAVE` to declare
 your slave server address.
 ```shell
 # EXPORT ENV VAR GLOBALLY
-export DATABASE_SIMPLE_SLAVE=slave.localhost:3306
+export DATABASE_SIMPLE_SLAVE=mysql2://slave.localhost:3306
 bundle exec rails server
 
 # OR PER COMMAND :)
-DATABASE_SIMPLE_SLAVE=slave.localhost:3306 bundle exec rails server
+DATABASE_SIMPLE_SLAVE=mysql2://slave.localhost:3306 bundle exec rails server
 ```
 
 Extend your model with ActiveRecord::SimpleSlave module, then use :
