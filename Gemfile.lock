@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord-simple-slave (1.0.1)
+    activerecord-simple-slave (1.0.2)
 
 GEM
   remote: https://rubygems.org/

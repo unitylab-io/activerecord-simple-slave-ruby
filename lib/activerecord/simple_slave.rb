@@ -44,9 +44,12 @@ module ActiveRecord
     def with_slave(&_block)
       retvalue = nil
       simple_slave_connection_pool.with_connection do |connection|
-        Thread.current[:simple_slave_connection] = connection
-        retvalue = yield(connection)
-        Thread.current[:simple_slave_connection] = nil
+        begin
+          Thread.current[:simple_slave_connection] = connection
+          retvalue = yield(connection)
+        ensure
+          Thread.current[:simple_slave_connection] = nil
+        end
       end
       retvalue
     end
