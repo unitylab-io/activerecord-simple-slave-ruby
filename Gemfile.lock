@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord-simple-slave (1.0.2)
+    activerecord-simple-slave (1.0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -32,4 +32,4 @@ DEPENDENCIES
   rspec (~> 3.0)
 
 BUNDLED WITH
-   1.16.3
+   1.17.2

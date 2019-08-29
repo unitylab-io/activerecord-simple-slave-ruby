@@ -9,7 +9,10 @@ module ActiveRecord
     def simple_slave_configuration
       @simple_slave_configuration ||= connection_config.dup.tap do |config|
         if simple_slave_url.nil?
-          Rails.logger.warn 'simple slave disabled (no configuration provided)'
+          if defined?(Rails)
+            Rails.logger.warn \
+              'simple slave disabled (no configuration provided)'
+          end
           next
         end
 
