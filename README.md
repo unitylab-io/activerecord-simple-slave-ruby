@@ -33,15 +33,15 @@ development:
   simple_slave_url: mysql2://slave.localhost:3306 # port is optional
 ```
 
-You can also use the environment variable `DATABASE_SIMPLE_SLAVE` to declare
+You can also use the environment variable `DATABASE_SIMPLE_SLAVE_URL` to declare
 your slave server address.
 ```shell
 # EXPORT ENV VAR GLOBALLY
-export DATABASE_SIMPLE_SLAVE=mysql2://slave.localhost:3306
+export DATABASE_SIMPLE_SLAVE_URL=mysql2://slave.localhost:3306
 bundle exec rails server
 
 # OR PER COMMAND :)
-DATABASE_SIMPLE_SLAVE=mysql2://slave.localhost:3306 bundle exec rails server
+DATABASE_SIMPLE_SLAVE_URL=mysql2://slave.localhost:3306 bundle exec rails server
 ```
 
 Extend your model with ActiveRecord::SimpleSlave module, then use :
@@ -63,7 +63,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/activerecord-simple-slave. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/unitylab-io/activerecord-simple-slave. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
