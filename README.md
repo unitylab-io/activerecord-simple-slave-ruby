@@ -1,4 +1,4 @@
-# Activerecord::SimpleSlave
+# ActiveRecord::SimpleSlave
 
 Provide a simple way to query a slave server (tested only with mysql2 adapter).
 
